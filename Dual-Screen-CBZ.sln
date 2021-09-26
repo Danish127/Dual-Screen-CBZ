@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dual-Screen-CBZ", "Dual-Screen-CBZ\Dual-Screen-CBZ.csproj", "{FD846A82-FC36-45DC-98F5-E904B65F3CC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoPage", "TwoPage\TwoPage.csproj", "{F5A0B7D5-0A06-4376-97B5-1D9BADDBBFAD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD846A82-FC36-45DC-98F5-E904B65F3CC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD846A82-FC36-45DC-98F5-E904B65F3CC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD846A82-FC36-45DC-98F5-E904B65F3CC0}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{FD846A82-FC36-45DC-98F5-E904B65F3CC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD846A82-FC36-45DC-98F5-E904B65F3CC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD846A82-FC36-45DC-98F5-E904B65F3CC0}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F5A0B7D5-0A06-4376-97B5-1D9BADDBBFAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5A0B7D5-0A06-4376-97B5-1D9BADDBBFAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5A0B7D5-0A06-4376-97B5-1D9BADDBBFAD}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F5A0B7D5-0A06-4376-97B5-1D9BADDBBFAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5A0B7D5-0A06-4376-97B5-1D9BADDBBFAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5A0B7D5-0A06-4376-97B5-1D9BADDBBFAD}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9E9F1A94-E04C-41B7-B078-FF9FAC0F0163}
+	EndGlobalSection
+EndGlobal
