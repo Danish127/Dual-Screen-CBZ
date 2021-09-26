@@ -29,7 +29,6 @@ namespace Dual_Screen_CBZ
 
             // Get the path to a file on internal storage
             string backingFile = Path.Combine(Xamarin.Essentials.FileSystem.AppDataDirectory, "Comics");
-            DualScreenInfo bleb = new DualScreenInfo();
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
