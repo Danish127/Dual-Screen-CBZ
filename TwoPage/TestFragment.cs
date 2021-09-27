@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
 using Android.Content;
+using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -14,34 +17,26 @@ namespace TwoPage
 {
 	public class TestFragment : Fragment
 	{
-		public string Text { get; private set; }
+		public MemoryStream ImageMemory { get; private set; }
 
-		public static TestFragment NewInstance(string text)
+		public static TestFragment NewInstance(MemoryStream Page)
 		{
-			var testFragment = new TestFragment();
-			var bundle = new Bundle();
-			bundle.PutString("text", text);
-			testFragment.Arguments = bundle;
+			var testFragment = new TestFragment()
+			{
+				ImageMemory = Page
+			};
 			return testFragment;
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			var view = inflater.Inflate(Resource.Layout.fragment_layout, container, false);
-			var mTextView = view.FindViewById<TextView>(Resource.Id.text_view);
-			if (Arguments != null)
-			{
-				Text = Arguments.GetString("text");
-				mTextView.Text = Text;
-			}
+			var mImageView = view.FindViewById<ImageView>(Resource.Id.image_view);
+			mImageView.SetImageDrawable(Drawable.CreateFromStream(ImageMemory, null));
 			return view;
 		}
 
-		public override string ToString()
-			=> Text;
-
 		// Init fragments for ViewPager
-		public static List<TestFragment> Fragments
-			=> Enumerable.Range(0, 9).Select(i => TestFragment.NewInstance($"Page {i}")).ToList();
+		public static List<TestFragment> Fragments(List<MemoryStream> Pages) =>Pages.Select(i => TestFragment.NewInstance(i)).ToList();
 	}
 }

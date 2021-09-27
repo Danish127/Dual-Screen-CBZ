@@ -15,21 +15,25 @@ using AndroidX.Collection;
 using Java.Lang;
 using Java.Util.Concurrent;
 using Android.Util;
+using System.IO;
+using SharpCompress.Readers;
+using SharpCompress.Common;
+using System.Collections.Generic;
 /*
 15-Apr-21 Use androidx.window-1.0.0-alpha01
-          This is a terrible hack that just aims to get the basics of Window Manager working
-          It doesn't properly handle rotation - just single-portrait/dual-portrait 
+This is a terrible hack that just aims to get the basics of Window Manager working
+It doesn't properly handle rotation - just single-portrait/dual-portrait 
 19-Apr-21 Update to androidx.window-1.0.0-alpha05
-          Discovered methods are missing from the binding
+Discovered methods are missing from the binding
 20-Apr-21 Update to androidx.window-1.0.0.1-alpha05 (adds RegisterLayoutChangeCallback method)
-          Registering and receiving events works, but the orientation value seems off
-          IConsumer.Accept is added to the Activity so that it can receive method calls on layout state changed
+Registering and receiving events works, but the orientation value seems off
+IConsumer.Accept is added to the Activity so that it can receive method calls on layout state changed
 21-Apr-21 Refactor out test code, seems to work...
 19-Jul-21 Update to androidx.window-1.0.0-alpha09
-		  FoldingFeature API changes - some properties became methods (GetOrientation, GetState, GetOcclusionType) and their types became "enums" (static class fields)
-		  Use OnStart/Stop instead of OnAttachedToWindow/OnDetached
+FoldingFeature API changes - some properties became methods (GetOrientation, GetState, GetOcclusionType) and their types became "enums" (static class fields)
+Use OnStart/Stop instead of OnAttachedToWindow/OnDetached
 23-Aug-21 Update to androidx.window-1.0.0-beta01
-          HACK: need to JavaCast IDisplayFeature to IFoldingFeature
+HACK: need to JavaCast IDisplayFeature to IFoldingFeature
 01-Sep-21 Updated to AndroidX.Window-1.0.0-beta02
 */
 namespace TwoPage
@@ -51,8 +55,10 @@ namespace TwoPage
 		ViewPager viewPager;
 		PagerAdapter pagerAdapter;
 
+		string ComicsPath = "";
 		/// <summary>Page number</summary>
 		int position = 0;
+		int offset = 0;
 		View single;
 		View dual;
 
@@ -61,13 +67,41 @@ namespace TwoPage
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
-			var fragments = TestFragment.Fragments;
-			pagerAdapter = new PagerAdapter(SupportFragmentManager, fragments);
+			
 
 			wir = new WindowInfoRepositoryCallbackAdapter(WindowInfoRepository.Companion.GetOrCreate(this));
 
 			single = LayoutInflater.Inflate(Resource.Layout.activity_main, null);
 			dual = LayoutInflater.Inflate(Resource.Layout.double_landscape_layout, null);
+			ComicsPath = Path.Combine(Android.App.Application.Context.GetExternalFilesDir(null).AbsolutePath, "Comics");
+			//ComicsPath = Path.Combine(Environment.ExternalStorageDirectory.AbsolutePath, "Comics");
+			if (!new FileInfo(ComicsPath).Exists)
+            {
+				DirectoryInfo dir = Directory.CreateDirectory(ComicsPath);
+                if (!dir.Exists)
+                {
+					Log.Info(TAG, "Folder not created");
+                }
+            }
+
+			string[] fileEntries = Directory.GetFiles(ComicsPath);
+			List<MemoryStream> Pages = new List<MemoryStream>();
+			using (Stream stream = File.OpenRead(fileEntries[0]))
+			{
+				var reader = ReaderFactory.Open(stream);
+				while (reader.MoveToNextEntry())
+				{
+					
+					if (!reader.Entry.IsDirectory)
+					{
+						MemoryStream tmp = new MemoryStream();
+						reader.WriteEntryTo(tmp);
+						Pages.Add(tmp);
+					}
+				}
+			}
+			var fragments = TestFragment.Fragments(Pages);
+			pagerAdapter = new PagerAdapter(SupportFragmentManager, fragments);
 			SetupLayout();
 		}
 
@@ -187,6 +221,7 @@ namespace TwoPage
 		public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
 		{
 			//
+			position += 2;
 		}
 
 		public void OnPageSelected(int position)
