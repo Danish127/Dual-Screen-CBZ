@@ -19,6 +19,7 @@ using System.IO;
 using SharpCompress.Readers;
 using SharpCompress.Common;
 using System.Collections.Generic;
+using System.Linq;
 /*
 15-Apr-21 Use androidx.window-1.0.0-alpha01
 This is a terrible hack that just aims to get the basics of Window Manager working
@@ -85,7 +86,7 @@ namespace TwoPage
             }
 
 			string[] fileEntries = Directory.GetFiles(ComicsPath);
-			List<MemoryStream> Pages = new List<MemoryStream>();
+			Dictionary<string, byte[]> Pages = new Dictionary<string, byte[]>();
 			using (Stream stream = File.OpenRead(fileEntries[0]))
 			{
 				var reader = ReaderFactory.Open(stream);
@@ -96,11 +97,15 @@ namespace TwoPage
 					{
 						MemoryStream tmp = new MemoryStream();
 						reader.WriteEntryTo(tmp);
-						Pages.Add(tmp);
+						tmp.Position = 0;
+						if (tmp.Length != 0)
+						{
+							Pages.Add(reader.Entry.Key, tmp.ToArray());
+						}
 					}
 				}
 			}
-			var fragments = TestFragment.Fragments(Pages);
+			var fragments = TestFragment.Fragments(Pages.OrderBy(o => o.Key).Select(o => o.Value).ToList());
 			pagerAdapter = new PagerAdapter(SupportFragmentManager, fragments);
 			SetupLayout();
 		}

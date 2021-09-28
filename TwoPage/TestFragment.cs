@@ -17,9 +17,9 @@ namespace TwoPage
 {
 	public class TestFragment : Fragment
 	{
-		public MemoryStream ImageMemory { get; private set; }
+		public byte[] ImageMemory { get; private set; }
 
-		public static TestFragment NewInstance(MemoryStream Page)
+		public static TestFragment NewInstance(byte[] Page)
 		{
 			var testFragment = new TestFragment()
 			{
@@ -30,13 +30,20 @@ namespace TwoPage
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			var view = inflater.Inflate(Resource.Layout.fragment_layout, container, false);
-			var mImageView = view.FindViewById<ImageView>(Resource.Id.image_view);
-			mImageView.SetImageDrawable(Drawable.CreateFromStream(ImageMemory, null));
-			return view;
+			try
+			{
+				var view = inflater.Inflate(Resource.Layout.fragment_layout, container, false);
+				var mImageView = view.FindViewById<ImageView>(Resource.Id.image_view);
+				mImageView.SetImageBitmap(BitmapFactory.DecodeByteArray(ImageMemory, 0, ImageMemory.Length));
+				return view;
+            }
+            catch (Exception ex)
+            {
+				return null;
+            }
 		}
 
 		// Init fragments for ViewPager
-		public static List<TestFragment> Fragments(List<MemoryStream> Pages) =>Pages.Select(i => TestFragment.NewInstance(i)).ToList();
+		public static List<TestFragment> Fragments(List<byte[]> Pages) =>Pages.Select(i => TestFragment.NewInstance(i)).ToList();
 	}
 }
