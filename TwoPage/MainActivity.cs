@@ -106,6 +106,8 @@ namespace TwoPage
 				}
 			}
 			var fragments = TestFragment.Fragments(Pages.OrderBy(o => o.Key).Select(o => o.Value).ToList());
+			fragments.Insert(0, new TestFragment());
+			position = 1;
 			pagerAdapter = new PagerAdapter(SupportFragmentManager, fragments);
 			SetupLayout();
 		}
@@ -226,7 +228,7 @@ namespace TwoPage
 		public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
 		{
 			//
-			position += 2;
+			//position += 2;
 		}
 
 		public void OnPageSelected(int position)

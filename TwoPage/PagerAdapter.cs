@@ -18,6 +18,10 @@ namespace TwoPage
 
 		public bool ShowTwoPages { get; set; } = false;
 
+		public bool FirstPageOffset { get; set; } = false;
+
+		public bool MangaOrganization { get; set; } = false;
+
 		public PagerAdapter(FragmentManager fm, List<TestFragment> fragments)
 			: base(fm, BehaviorResumeOnlyCurrentFragment)
 		{
@@ -25,7 +29,35 @@ namespace TwoPage
 		}
 
 		public override Fragment GetItem(int position)
-			=> fragments[position];
+		{
+
+			position++;
+			if (ShowTwoPages)
+			{
+
+				//fragments[position].FragmentManager.PopBackStack();
+				if (FirstPageOffset)
+				{
+					position--;
+                }
+                else
+                {
+					position++;
+                }
+			}
+
+			return fragments[position];
+
+			
+			if (ShowTwoPages)
+			{
+				return fragments[position];
+			}
+			else
+			{
+				return fragments[position];
+			}
+		}
 
 		public override int Count
 			=> fragments.Count;
