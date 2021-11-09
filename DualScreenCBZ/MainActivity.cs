@@ -20,7 +20,6 @@ using SharpCompress.Readers;
 using SharpCompress.Common;
 using System.Collections.Generic;
 using System.Linq;
-using DualScreenCBZ;
 /*
 15-Apr-21 Use androidx.window-1.0.0-alpha01
 This is a terrible hack that just aims to get the basics of Window Manager working
