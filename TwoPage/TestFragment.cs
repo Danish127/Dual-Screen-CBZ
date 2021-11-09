@@ -13,7 +13,7 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.Fragment.App;
 
-namespace TwoPage
+namespace DualScreenCBZ
 {
 	public class TestFragment : Fragment
 	{

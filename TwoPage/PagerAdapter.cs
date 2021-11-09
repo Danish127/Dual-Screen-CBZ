@@ -9,10 +9,11 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidX.Fragment.App;
+using AndroidX.ViewPager2.Adapter;
 
-namespace TwoPage
+namespace DualScreenCBZ
 {
-	public class PagerAdapter : FragmentPagerAdapter
+	public class PagerAdapter : FragmentPagerAdapter //FragmentStateAdapter //FragmentPagerAdapter
 	{
 		List<TestFragment> fragments;
 
@@ -62,9 +63,16 @@ namespace TwoPage
 		public override int Count
 			=> fragments.Count;
 
-		// 0.5f : Each pages occupy full space
-		// 1.0f : Each pages occupy half space
-		public override float GetPageWidth(int position)
+        //public override int ItemCount => throw new NotImplementedException();
+
+        // 0.5f : Each pages occupy full space
+        // 1.0f : Each pages occupy half space
+        public override float GetPageWidth(int position)
 			=> ShowTwoPages ? 0.5f : 1.0f;
-	}
+
+        /*public override Fragment CreateFragment(int p0)
+        {
+            throw new NotImplementedException();
+        }*/
+    }
 }

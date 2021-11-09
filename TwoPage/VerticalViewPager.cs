@@ -12,7 +12,7 @@ using Android.Widget;
 using AndroidX.ViewPager.Widget;
 using static AndroidX.ViewPager.Widget.ViewPager;
 
-namespace TwoPage
+namespace DualScreenCBZ
 {
 	// VerticalViewPager can be swiped vertically
 	public class VerticalViewPager : ViewPager

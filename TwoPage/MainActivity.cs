@@ -20,6 +20,7 @@ using SharpCompress.Readers;
 using SharpCompress.Common;
 using System.Collections.Generic;
 using System.Linq;
+using DualScreenCBZ;
 /*
 15-Apr-21 Use androidx.window-1.0.0-alpha01
 This is a terrible hack that just aims to get the basics of Window Manager working
@@ -37,7 +38,7 @@ Use OnStart/Stop instead of OnAttachedToWindow/OnDetached
 HACK: need to JavaCast IDisplayFeature to IFoldingFeature
 01-Sep-21 Updated to AndroidX.Window-1.0.0-beta02
 */
-namespace TwoPage
+namespace DualScreenCBZ
 {
 	[Android.App.Activity(
 		Icon = "@mipmap/ic_launcher",
@@ -74,7 +75,7 @@ namespace TwoPage
 
 			single = LayoutInflater.Inflate(Resource.Layout.activity_main, null);
 			dual = LayoutInflater.Inflate(Resource.Layout.double_landscape_layout, null);
-			ComicsPath = Path.Combine(Android.App.Application.Context.GetExternalFilesDir(null).AbsolutePath, "Comics");
+			ComicsPath = Path.Combine(Android.App.Application.Context.GetExternalMediaDirs()[0].AbsolutePath/* .GetExternalFilesDir(null).AbsolutePath*/, "Comics");
 			//ComicsPath = Path.Combine(Environment.ExternalStorageDirectory.AbsolutePath, "Comics");
 			if (!new FileInfo(ComicsPath).Exists)
             {
